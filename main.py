@@ -1,0 +1,140 @@
+import time
+from helpers.Helpers import clear_console
+
+
+class Application():
+    def __init__(self):
+        super().__init__
+
+    def start_screen(self):
+        START_SCREEN = """
+            ╔════════════════════════════════════════════════════════════╗
+            ║                                                            ║
+            ║          ANDA COMMUNITY HOSPITAL DEPENDENCY SYSTEM         ║
+            ║                                                            ║
+            ║                  🏥 Bayan ng Anda                          ║
+            ║                  📋 Lalawigan ng Pangasinan                ║
+            ║                  👥 2026                                   ║
+            ║                                                            ║
+            ╚════════════════════════════════════════════════════════════╝
+            """
+        print(f'{START_SCREEN}\n')
+        time.sleep(2)
+
+    
+    def view_graph_adjacency_list(self):
+        nodes = {
+            "assessment": ["er_triage", "opd_triage"],
+            "er_triage": ["basic_test"],
+            "opd_triage": ["family_medicine"],
+            "basic_test": ["hospitalized"],
+            "family_medicine": ["tests", "hospitalized", "discharged"],
+            "tests": ["surgeon", "internal", "geriatrics", "pediatrics","discharged"],
+            "surgeon": ["hospitalized"],
+            "hospitalized": ["family_medicine", "surgeon", "discharged"],
+            "pediatrics": ["discharged"],
+            "internal": ["discharged"],
+            "geriatrics": ["discharged"],
+            "discharged": []
+        }
+        print("--- ADJACENCY LIST REPRESENTATION ---")
+        for node, neighbors in nodes.items():
+            print(f"{node.upper():<15} -> {neighbors}")
+        return nodes
+
+    def view_graph_adjacency_matrix(self):
+        labels = ["assess", "er_tri", "opd_tri", "basic", "fam_med", "tests", "surg", "hosp", "pedia", "intern", "geria", "disch"]
+        matrix = [
+            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], # assessment
+            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], # er_triage
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], # opd_triage
+            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], # basic_test
+            [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], # family_medicine
+            [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1], # tests
+            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], # surgeon
+            [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1], # hospitalized
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], # pediatrics
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], # internal
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], # geriatrics
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # discharged
+        ]
+        
+        print("--- ADJACENCY MATRIX ---")
+        header = " " * 8 + " ".join([f"{l:>6}" for l in labels])
+        print(header)
+        
+        for i, row in enumerate(matrix):
+            row_str = " ".join([f"{val:>6}" for val in row])
+            print(f"{labels[i]:<8} [{row_str} ]")
+            
+        return matrix
+
+    def view_visual_graph(self):
+        print("\nVisual Graph Not Implemented Yet")
+        return None
+
+    def menu_answer_1(self):
+        print('Welcome to the Anda Community Hospital Dependency System!') 
+        print('The system is design to show the patient flow network from assessment to discharge.') 
+        print("""\n\n\n\nGRAPH DEFINITION
+            G = (V, E) where:
+            V = {assessment, er_triage, opd_triage, basic_test, family_medicine, tests, 
+                surgeon, hospitalized, pediatrics, internal, geriatrics, discharged}
+
+            |V| = 12 vertices""")  
+        print("""\n Edge connections
+            1. assessment → er_triage
+            2. assessment → opd_triage
+                
+            3. er_triage → basic_test
+
+            4. basic_test → hospitalized
+
+            5. hospitalized → family_medicine
+            6. hospitalized → surgeon
+            7. hospitalized → discharged
+                
+            8. opd_triage → family_medicine
+                
+            9. family_medicine → hospitalized
+            10. family_medicine → discharged
+            11. family_medicine → tests
+
+            12. tests → surgeon
+            13. tests → internal
+            14. tests → geriatrics
+            15. tests → pediatrics
+                
+            16. surgeon → hospitalized
+
+            17. internal → discharged
+            18. pediatrics → discharged
+            19. geriatrics → discharged""")  
+
+        while True:
+            print("""\nViewing the current graph.
+                  Press 1 to view the graph in an adjacency matrix.
+                  Press 2 to view the graph in list representation.
+                  Press 3 to view the graph in visual graph.
+                  """) 
+            answer = input(': ')         
+            clear_console()   
+            if answer == '1':
+                self.view_graph_adjacency_matrix()
+            elif answer == '2':
+                self.view_graph_adjacency_list()
+            else:
+                self.view_visual_graph()     
+            print("""\n
+                  Press 0 to go back in the view section
+                  Press 1 to find all paths to discharged
+                  """) 
+            answer = input(': ')         
+            clear_console()   
+            if answer == '1':
+                break 
+
+if __name__ == "__main__":
+    start = Application()
+    start.start_screen()
+    start.menu_answer_1()
