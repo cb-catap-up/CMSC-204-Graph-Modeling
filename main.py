@@ -1,5 +1,6 @@
 import time
 from helpers.Helpers import clear_console
+from dfs.DFS import HospitalGraph
 
 
 class Application():
@@ -127,12 +128,46 @@ class Application():
                 self.view_visual_graph()     
             print("""\n
                   Press 0 to go back in the view section
-                  Press 1 to find all paths to discharged
+                  Press 1 to run the DFS
                   """) 
             answer = input(': ')         
             clear_console()   
             if answer == '1':
                 break 
+        
+        hospital = HospitalGraph()
+        hospital.dfs(1)
+
+        while True:
+            print("""\n
+                    Press 1 to detect a cycle
+                    """) 
+            answer = input(': ')         
+            clear_console()   
+            if answer == '1':
+                break 
+        hospital.detect_cycles()
+        # detect cycle
+        while True:
+            print("""\n
+                    Press 1 to find all paths
+                    """) 
+            answer = input(': ')         
+            clear_console()   
+            if answer == '1':
+                break 
+        # find all paths
+
+        while True:
+            print("""\n
+                    Press 1 to try and input a patient
+                    """) 
+            answer = input(': ')         
+            clear_console()   
+            if answer == '1':
+                break 
+        # survey
+
 
 if __name__ == "__main__":
     start = Application()
