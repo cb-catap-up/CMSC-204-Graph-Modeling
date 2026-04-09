@@ -4,14 +4,14 @@ from dfs.GraphViewer import GraphViewer
 class HospitalGraph:
     def __init__(self):
         self.adj_list = {
-            1: [2],
+            1: [2, 3],
             2: [4],
-            # 3: [5],
+            3: [5],
             4: [8],
-            # 5: [6, 8, 12],
+            5: [6, 8, 12],
             6: [7, 10, 11, 9, 12],
             7: [8],
-            8: [7, 12],
+            8: [5, 7, 12],
             9: [12],
             10: [12],
             11: [12],
