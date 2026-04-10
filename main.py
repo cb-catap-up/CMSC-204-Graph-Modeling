@@ -1,6 +1,7 @@
 import time
 from helpers.Helpers import clear_console
 from dfs.DFS import HospitalGraph
+from helpers import Constant
 
 
 class Application():
@@ -170,7 +171,44 @@ class Application():
                 urgent_input = str(input(f"Is the illness considered life-threatening Y/N?: ")).lower()
                 break
         visual_hospital = HospitalGraph()
-        visual_hospital.print_graph(age=age_input, gender=gender_input,urgent=urgent_input)
+
+        if urgent_input =='y':
+            if int(age_input) <= 21 and age_input != 0:
+                visual_hospital.update_adj_list(Constant.ER_AND_PEDIATRIC)
+            if int(age_input) >= 21 and age_input <= 74:
+                visual_hospital.update_adj_list(Constant.ER_AND_INTERNAL)
+            if int(age_input) >= 75:
+                visual_hospital.update_adj_list(Constant.ER_AND_GERIATRIC)
+        if urgent_input == 'n':
+            if int(age_input) <= 21 and age_input != 0:
+                visual_hospital.update_adj_list(Constant.NON_ER_AND_PEDIATRIC)
+            if int(age_input) >= 21 and age_input <= 74:
+                visual_hospital.update_adj_list(Constant.NON_ER_AND_INTERNAL)
+            if int(age_input) >= 75:
+                visual_hospital.update_adj_list(Constant.NON_ER_AND_GERIATRIC)
+        while True:
+            print("""\n
+                    Press 0 to run DFS
+                    Press 1 to show updated graph w/ patient details
+                    Press 2 to detect cycles
+                    Press 3 to exit
+                    """) 
+            answer = input(': ')         
+            clear_console()
+            if answer == '0':
+                clear_console()
+                visual_hospital.dfs(1)
+            elif answer == '1':
+                clear_console()
+                visual_hospital.print_graph(age=age_input, gender=gender_input, urgent=urgent_input)
+            elif answer == '2':
+                clear_console()
+                visual_hospital.detect_cycles()
+            elif answer == '3':
+                break
+            else:
+                print("Invalid input. Please try again.")
+
 
 
 if __name__ == "__main__":

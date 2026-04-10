@@ -32,6 +32,9 @@ class HospitalGraph:
             12: "Release the patient from medical care"
         }
 
+    def update_adj_list(self,new_list):
+        self.adj_list = new_list
+
     def name(self, v):
         return self.vertex_names[v]
 
