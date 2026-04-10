@@ -112,12 +112,14 @@ class Application():
             17. internal → release_the_patient_from_medical_care
             18. pediatrics → release_the_patient_from_medical_care
             19. geriatrics → release_the_patient_from_medical_care""")  
+        skipper = False
 
         while True:
             print("""\nViewing the current graph.
                   Press 1 to view the graph in an adjacency matrix.
                   Press 2 to view the graph in list representation.
                   Press 3 to view the graph in visual graph.
+                  Press 4 to input patient details
                   """) 
             answer = input(': ')         
             clear_console()   
@@ -125,6 +127,9 @@ class Application():
                 self.view_graph_adjacency_matrix()
             elif answer == '2':
                 self.view_graph_adjacency_list()
+            elif answer == '4':
+                skipper = True
+                break
             else:
                 self.view_visual_graph()     
             print("""\n
@@ -135,29 +140,29 @@ class Application():
             clear_console()   
             if answer == '1':
                 break 
-        
-        hospital = HospitalGraph()
-        hospital.dfs(1)
+        if not skipper:
+            hospital = HospitalGraph()
+            hospital.dfs(1)
 
-        while True:
-            print("""\n
-                    Press 1 to detect a cycle
-                    """) 
-            answer = input(': ')         
-            clear_console()   
-            if answer == '1':
-                break 
-        hospital.detect_cycles()
-        # detect cycle
-        while True:
-            print("""\n
-                    Press 1 to find all paths
-                    """) 
-            answer = input(': ')         
-            clear_console()   
-            if answer == '1':
-                break 
-        # find all paths
+            while True:
+                print("""\n
+                        Press 1 to detect a cycle
+                        """) 
+                answer = input(': ')         
+                clear_console()   
+                if answer == '1':
+                    break 
+            hospital.detect_cycles()
+            # detect cycle
+            while True:
+                print("""\n
+                        Press 1 to find all paths
+                        """) 
+                answer = input(': ')         
+                clear_console()   
+                if answer == '1':
+                    break 
+            # find all paths
 
         while True:
             print("""\n
