@@ -71,16 +71,16 @@ class Application():
         return matrix
 
     def view_visual_graph(self):
-        print("\nVisual Graph Not Implemented Yet")
-        return None
+        visual_hospital = HospitalGraph()
+        visual_hospital.print_graph()
 
     def menu_answer_1(self):
         print('Welcome to the Anda Community Hospital Dependency System!') 
         print('The system is design to show the patient flow network from assessment to discharge.') 
         print("""\n\n\n\nGRAPH DEFINITION
             G = (V, E) where:
-            V = {assessment, er_triage, opd_triage, basic_test, family_medicine, tests, 
-                surgeon, hospitalized, pediatrics, internal, geriatrics, discharged}
+            V = {assessment, er_triage, opd_triage, basic_test, family_medicine, additional_tests, 
+                surgery_doc, hospitalized, pediatrics, internal, geriatrics, release_the_patient_from_medical_care}
 
             |V| = 12 vertices""")  
         print("""\n Edge connections
@@ -92,25 +92,25 @@ class Application():
             4. basic_test → hospitalized
 
             5. hospitalized → family_medicine
-            6. hospitalized → surgeon
-            7. hospitalized → discharged
+            6. hospitalized → Surgery_doc
+            7. hospitalized → release_the_patient_from_medical_care
                 
             8. opd_triage → family_medicine
                 
             9. family_medicine → hospitalized
-            10. family_medicine → discharged
-            11. family_medicine → tests
+            10. family_medicine → release_the_patient_from_medical_care
+            11. family_medicine → Additional Tests
 
-            12. tests → surgeon
-            13. tests → internal
-            14. tests → geriatrics
-            15. tests → pediatrics
+            12. additional_tests → surgery_doc
+            13. additional_tests → internal
+            14. additional_tests → geriatrics
+            15. additional_tests → pediatrics
                 
-            16. surgeon → hospitalized
+            16. surgery_doc → hospitalized
 
-            17. internal → discharged
-            18. pediatrics → discharged
-            19. geriatrics → discharged""")  
+            17. internal → release_the_patient_from_medical_care
+            18. pediatrics → release_the_patient_from_medical_care
+            19. geriatrics → release_the_patient_from_medical_care""")  
 
         while True:
             print("""\nViewing the current graph.
@@ -165,8 +165,12 @@ class Application():
             answer = input(': ')         
             clear_console()   
             if answer == '1':
-                break 
-        # survey
+                age_input = int(input(f"Enter patient age: "))
+                gender_input = str(input(f"Enter patient gender: "))
+                urgent_input = str(input(f"Is the illness considered life-threatening Y/N?: ")).lower()
+                break
+        visual_hospital = HospitalGraph()
+        visual_hospital.print_graph(age=age_input, gender=gender_input,urgent=urgent_input)
 
 
 if __name__ == "__main__":

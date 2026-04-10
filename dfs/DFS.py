@@ -1,4 +1,5 @@
 import time
+from dfs.GraphViewer import GraphViewer
 
 class HospitalGraph:
     def __init__(self):
@@ -22,13 +23,13 @@ class HospitalGraph:
             3: "OPD Triage",
             4: "Basic Test",   
             5: "Family Medicine", 
-            6: "Tests",
-            7: "Surgeon",      
+            6: "Additional Tests",
+            7: "Surgery Doc",      
             8: "Hospitalized",   
             9: "Pediatrics",
             10: "Internal",   
             11: "Geriatrics",    
-            12: "Discharged"
+            12: "Release the patient from medical care"
         }
 
     def name(self, v):
@@ -173,3 +174,12 @@ class HospitalGraph:
                 print()
  
         print("=" * 55)
+    
+    def print_graph(self, age= None, gender = None, urgent = None):
+        graph = GraphViewer(graph_nodes=self.adj_list)
+        if age == None and gender == None and urgent == None:
+            graph.view_all_graph()
+        if urgent == 'y':
+            graph.view_er_graph(age=age)
+        elif urgent == 'n':
+            graph.view_non_er_graph(age=age)
